@@ -1,0 +1,31 @@
+{
+  "name": "somefunctions",
+  "version": "3.3.3",
+  "description": "A bunch of utilities that you can freely use in your projects",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sylicium/someFunctions.git"
+  },
+  "keywords": [
+    "some",
+    "functions",
+    "utils",
+    "utility",
+    "aide",
+    "help",
+    "usefull",
+    "stuff",
+    "node",
+    "js"
+  ],
+  "author": "Sylicium",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sylicium/someFunctions/issues"
+  },
+  "homepage": "https://github.com/Sylicium/someFunctions#readme"
+}
