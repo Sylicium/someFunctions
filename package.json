@@ -1,6 +1,6 @@
 {
   "name": "somefunctions",
-  "version": "3.3.3",
+  "version": "3.3.5",
   "description": "A bunch of utilities that you can freely use in your projects",
   "main": "index.js",
   "scripts": {
@@ -13,6 +13,9 @@
   "keywords": [
     "some",
     "functions",
+    "func",
+    "somef",
+    "sf",
     "utils",
     "utility",
     "aide",

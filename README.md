@@ -102,7 +102,6 @@ require('node:crypto');
  * @returns {Array}
  */
 
-module.exports.isBufferEqual = isBufferEqual
 /**
  * isBufferEqual() : Compare deux buffer en XOR. Résiste au time attack.
  * @param {String} a - Premier buffer
