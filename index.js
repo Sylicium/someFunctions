@@ -15,13 +15,13 @@ try {
 
     module.exports.isSuperAdmin = isSuperAdmin
     /**
-     * f() : Booléen qui retourne true si l'ID est celui d'un SuperAdmin
+     * isSuperAdmin() : Booléen qui retourne true si l'ID est celui d'un SuperAdmin
      * @param {string} user_id - L'id de l'utilisateur a check
      */
     function isSuperAdmin(user_id) {
         return ( config.superAdminList.indexOf(user_id) != -1 )
     }
-} catch(e) { console.log("[WARN someFunctions.js] Did not loaded isSuperAdmin() due to error.") }
+} catch(e) { console.log("[WARN someFunctions.js] Did not loaded isSuperAdmin() due to error. (this is not necessary to use the whole module)") }
 
 
 class new_Random {
@@ -30,10 +30,9 @@ class new_Random {
     }
 
     /**
-     * f() : Retourne une chaine héxadécimale de la longueur voulue
+     * randHex() : Retourne une chaine héxadécimale de la longueur voulue
      * @param {Number} length - Longueur de la chaine voulue
      * @param {Boolean} capitalize - Mettre la chaine en caractères majuscule
-     * @deprecated use Random.randHex()
      */
     randHex(length, capitalize=false) {
         let str = [...Array(length)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
@@ -41,7 +40,7 @@ class new_Random {
     }
 
     /**
-     * f() : Renvoie un nombre entier aléatoire entre min (inclu) et max (exclu)
+     * randInt() : Renvoie un nombre entier aléatoire entre min (inclu) et max (exclu)
      * @param {Number} min - La nombre minimum (inclu)
      * @param {Number} max - La nombre maximum (exclu)
      * @returns {Number}
@@ -51,7 +50,7 @@ class new_Random {
     }
 
     /**
-     * f() : Renvoie un nombre flotant aléatoire entre min (inclu) et max (exclu)
+     * randFloat() : Renvoie un nombre flotant aléatoire entre min (inclu) et max (exclu)
      * @param {Float} min - La nombre minimum (inclu)
      * @param {Float} max - La nombre maximum (exclu)
      * @returns {Float}
@@ -61,7 +60,7 @@ class new_Random {
     }
 
     /**
-     * f() : Mélange aléatoirement la liste donnée.
+     * shuffle() : Mélange aléatoirement la liste donnée.
      * @param {Array} list - La liste a mélanger
      * @returns {Array}
      */
@@ -74,7 +73,7 @@ class new_Random {
     }
 
     /**
-     * f() : Retourne un élément àléatoire de la liste
+     * choice() : Retourne un élément àléatoire de la liste
      * @param {Array} list - La liste en entrée
      */
     choice(list) {
@@ -82,7 +81,7 @@ class new_Random {
     }
 
     /**
-     * f() : Retourne une chaine aléatoire de la longueur voulue contenant des lettres minusules et majuscules ainsi que des chiffres
+     * randString() : Retourne une chaine aléatoire de la longueur voulue contenant des lettres minusules et majuscules ainsi que des chiffres
      * @param {Number} length - Longueur de la chaine voulue
      * @param {Boolean} list - Mettre la chaine en caractères majuscule
      */
@@ -98,7 +97,7 @@ module.exports.Random = new new_Random()
 
 module.exports.sum = sum
 /**
- * f() : Retourne la somme de tous les éléments de la liste
+ * sum() : Retourne la somme de tous les éléments de la liste
  * @param {Array} list - La liste en entrée
  */
 function sum(list) {
@@ -107,7 +106,7 @@ function sum(list) {
 
 module.exports.any = any
 /**
- * f() : Retourne true si au moins 1 élément se trouve dans les 2 listes
+ * any() : Retourne true si au moins 1 élément se trouve dans les 2 listes
  * @param {Array} list - La 1ere liste
  * @param {Array} list_two - La 2ere liste
  * @param {Boolean} caseSensitive - Prendre en compte ou non la casse. Default: true
@@ -125,7 +124,7 @@ function any(list, list_two, caseSensitive=true) {
 
 module.exports.arrayToChunks = arrayToChunks
 /**
- * f() : Retourne une liste contenant des chunks de la liste donnée, de taille maximum specifié
+ * arrayToChunks() : Retourne une liste contenant des chunks de la liste donnée, de taille maximum specifié
  * @param {Array} list - La liste qui doit être découpée en chunks
  * @param {Number} chunkSize - La taille maximum d'un chunk
  * @returns Array
@@ -142,7 +141,7 @@ function arrayToChunks(list, chunkSize) {
 
 module.exports.all = all
 /**
- * f() : Retourne true si tous les éléments de la liste A se trouvent dans la B
+ * all() : Retourne true si tous les éléments de la liste A se trouvent dans la B
  * @param {Array} from_list - La liste qui doit être contenue intégralement dans la 2eme
  * @param {Array} list_in - La liste qui doit contenir chaque élement de la 1ere
  * @param {Boolean} caseSensitive - Prendre en compte ou non la casse. Default: true
@@ -217,7 +216,7 @@ function isBufferEqual(a,b) {
 
 module.exports.anyWordInText = anyWordInText
 /**
- * f() : Retourne true si au moins 1 élément se trouve dans le texte
+ * anyWordInText() : Retourne true si au moins 1 élément se trouve dans le texte
  * @param {String} text - Le texte
  * @param {Array} list - La liste
  * @param {Boolean} caseSensitive - Prendre en compte ou non la casse. Default: true
@@ -274,7 +273,7 @@ module.exports.JSONBigInt = new new_JSONBigInt()
 
 module.exports.isScam = isScam
 /**
- * f() : Renvoie True si le texte entré est détecté comme une arnaque Version 1.1.1 | 21/06/2022
+ * isScam() : Renvoie True si le texte entré est détecté comme une arnaque Version 1.1.1 | 21/06/2022
  * @param {String} text - La chaine de texte à tester
  * @author Sylicium
  * @description Used for discord bots in my own projects
@@ -391,7 +390,7 @@ function isScam(text) {
 
 module.exports.isScamScore = isScamLinkScore
 /**
- * f() : Retourne un booléen pour savoir si ce lien est un lien d'arnaque
+ * isScamLinkScore() : Retourne un booléen pour savoir si ce lien est un lien d'arnaque
  * @param {String} link - Le lien a tester
  * @deprecated Not yet coded -
  */
@@ -468,7 +467,7 @@ let _normalizeListRegex = (list) => { return list.map(x => { return _normalizeRe
 module.exports.capitalize = (str) => { return `${str[0].toUpperCase()}${str.slice(1)}` }
 
 /**
- * f() : Transforme un temps en millisecondes en un texte en une durée formatée
+ * formatTime() : Transforme un temps en millisecondes en un texte en une durée formatée
  * @param {string} millisecondes - Le temps en millisecondes à convertir
  * @param {string} format - Le format texte à renvoyer (YYYY: year, MM: month, DDDDD: jour de la semaine, DD: day, hh: heure, mm: minute, ss: seconde)
  */
@@ -516,7 +515,7 @@ function formatTime(millisecondes, format) {
 
 module.exports.formatDate = formatDate
 /**
- * f() : Transforme un timestamp en un texte de date formatée
+ * formatDate() : Transforme un timestamp en un texte de date formatée
  * @param {string} timestamp - Le timestamp à convertir
  * @param {string} format - Le format texte à renvoyer (YYYY: year, MM: month, DDDDD: jour de la semaine, DD: day, hh: heure, mm: minute, ss: seconde)
  */
@@ -556,7 +555,7 @@ function formatDate(timestamp, format) {
 
 module.exports.compareString = compareString
 /**
- * f() : Renvoie une valeur entre 0 et 1 du taux de similitude entre les deux chaines
+ * compareString() : Renvoie une valeur entre 0 et 1 du taux de similitude entre les deux chaines
  * @param {string} string1 - Première chaine de texte
  * @param {string} string2 - Deuxième chaine de texte
  * @author Sylicium
