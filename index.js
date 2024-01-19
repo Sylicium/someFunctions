@@ -4,6 +4,7 @@
  * @author Sylicium
  * @description Module someFunction qui réunit plein de fonction utiles
  * @github https://github.com/Sylicium/someScripts/edit/main/modules/someFunctions.js
+ * @discord https://discord.gg/9qPJyvJQBP
 */
 
 /* Import modules */
@@ -87,7 +88,7 @@ class new_Random {
      */
     randString(length, charList=undefined) {
         charList = charList || "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")
-        return [...Array(length)].map((x) => choice(charList)).join('');
+        return [...Array(length)].map((x) => this.choice(charList)).join('');
     }
 }
 module.exports.Random = new new_Random()

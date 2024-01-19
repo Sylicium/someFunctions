@@ -1,6 +1,6 @@
 {
   "name": "somefunctions",
-  "version": "3.3.6",
+  "version": "3.3.8",
   "description": "A bunch of utilities that you can freely use in your projects",
   "main": "index.js",
   "scripts": {
