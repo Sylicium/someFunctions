@@ -1,6 +1,6 @@
 
 /**
- * @version 3.4.0 // 07/01/2024
+ * @version 3.4.1 // 07/01/2024
  * @author Sylicium
  * @description Module someFunction qui réunit plein de fonction utiles
  * @github https://github.com/Sylicium/someScripts/edit/main/modules/someFunctions.js
@@ -27,7 +27,7 @@ try {
 
 class new_Random {
     constructor() {
-        this.version = "1.1.0"
+        this.version = "1.1.1"
     }
 
     /**
@@ -99,6 +99,16 @@ class new_Random {
             } else { _indexes.push(t) }
         }
         return _indexes.map(x => { return list[x] })
+    }
+    
+    /**
+     * choiceOne() : Return random 1 element of the specified list
+     * @param {Array} list - Input list
+     */
+    choiceOne(list) {
+        // Disable line below for optimizations in execution,
+        if(!Array.isArray(list) || list.length == 0 || typeof list != 'object') throw new Error("Invalid value for argument 'list'.")
+        return list[Math.floor(Math.random()*list.length)]
     }
 
     /**
