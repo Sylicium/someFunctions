@@ -1,6 +1,6 @@
 
 /**
- * @version 3.3.5 // 07/01/2024
+ * @version 3.4.0 // 07/01/2024
  * @author Sylicium
  * @description Module someFunction qui réunit plein de fonction utiles
  * @github https://github.com/Sylicium/someScripts/edit/main/modules/someFunctions.js
@@ -27,7 +27,7 @@ try {
 
 class new_Random {
     constructor() {
-        this.version = "1.0.0"
+        this.version = "1.1.0"
     }
 
     /**
@@ -74,11 +74,31 @@ class new_Random {
     }
 
     /**
-     * choice() : Retourne un élément àléatoire de la liste
-     * @param {Array} list - La liste en entrée
+     * choice() : Return random elements from the list
+     * @param {Array} list - Input list
+     * @param {Boolean} pickOnce - Pick indexes only once for multiple choice scenarios?
+     * @param {Number} amount - The amount of choosen values you want
+     * @returns {Array}
+     * Example:
+     > choice(["toto","kiwi","salut"], false, 2) // may return ["toto","toto"] or ["kiwi","kiwi"] etc.. in some cases
+     > choice(["toto","kiwi","salut"], true, 2) // will never return ["toto","toto"] or ["kiwi","kiwi"] etc..
+     Careful, this rule only apply on indexes, so
+     > choice(["toto","kiwi","toto"], true, 2) // may return ["toto","toto"] but this mean that indexes 0 and 2 have been choosen.
+     You can remove duplicates of a list using removeDuplicates() function in that same module before passing the list in the choice() function.
      */
-    choice(list) {
-        return list[Math.floor(Math.random()*list.length)]
+    choice(list, pickOnce=true, amount=1) {
+        if(!Array.isArray(list) || list.length == 0 || typeof list != 'object') throw new Error("Invalid value for argument 'list'.")
+        if(typeof pickOnce != 'boolean') throw new Error("Invalid value for argument 'pickOnce'.")
+        if(typeof amount != 'number' || isNaN(amount) || !Number.isSafeInteger(amount) || amount <= 0) throw new Error("Invalid value for argument 'amount'.")
+        let _indexes = []
+        if(amount >= list.length) { return list }
+        while(_indexes.length != amount) {
+            let t = Math.floor(Math.random()*list.length)
+            if(pickOnce) {
+                if(!_indexes.includes(t)) { _indexes.push(t) }
+            } else { _indexes.push(t) }
+        }
+        return _indexes.map(x => { return list[x] })
     }
 
     /**
@@ -88,7 +108,7 @@ class new_Random {
      */
     randString(length, charList=undefined) {
         charList = charList || "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")
-        return [...Array(length)].map((x) => this.choice(charList)).join('');
+        return [...Array(length)].map((x) => charList[Math.floor(Math.random()*charList.length)]).join('');
     }
 }
 module.exports.Random = new new_Random()
