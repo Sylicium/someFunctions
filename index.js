@@ -1,6 +1,6 @@
 
 /**
- * @version 3.4.1 // 20/03/2024
+ * @version 3.4.2 // 20/03/2024
  * @author Sylicium
  * @description Module someFunction qui réunit plein de fonction utiles
  * @github https://github.com/Sylicium/someScripts/edit/main/modules/someFunctions.js
@@ -559,10 +559,11 @@ function formatDate(timestamp, format) {
     hh: heure
     mm: minute
     ss: seconde
+    ms: miliseconds
     */
     let la_date = new Date(timestamp)
     function formatThis(thing, length=2) {
-        return `0000${thing}`.substr(-2)
+        return `0000${thing}`.substr(-length)
     }
 
     function getDayName() {
@@ -575,10 +576,10 @@ function formatDate(timestamp, format) {
             "samedi",
             "dimanche"
         ]
-        return list[la_date.getDay()-1 == -1 ? list.length-1 : la_date.getDay()-1]
+        return list[la_date.getDay()-1]
     }
 
-    let return_string = format.replace("YYYY", la_date.getFullYear()).replace("MM", formatThis(la_date.getMonth()+1)).replace("DDDDD", getDayName()).replace("DD", formatThis(la_date.getDate())).replace("hh", formatThis(la_date.getHours())).replace("mm", formatThis(la_date.getMinutes())).replace("ss", formatThis(la_date.getSeconds()))
+    let return_string = format.replace("YYYY", la_date.getFullYear()).replace("MM", formatThis(la_date.getMonth()+1)).replace("DDDDD", getDayName()).replace("DD", formatThis(la_date.getDate())).replace("hh", formatThis(la_date.getHours())).replace("mm", formatThis(la_date.getMinutes())).replace("ss", formatThis(la_date.getSeconds())).replace("ms", formatThis(la_date.getMilliseconds(),3))
 
     return return_string
 }
