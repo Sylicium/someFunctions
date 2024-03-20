@@ -1,6 +1,6 @@
 
 /**
- * @version 3.4.1 // 07/01/2024
+ * @version 3.4.1 // 20/03/2024
  * @author Sylicium
  * @description Module someFunction qui réunit plein de fonction utiles
  * @github https://github.com/Sylicium/someScripts/edit/main/modules/someFunctions.js
