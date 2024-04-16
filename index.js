@@ -1,6 +1,6 @@
 
 /**
- * @version 3.4.2 // 20/03/2024
+ * @version 3.5.0 // 16/04/2024
  * @author Sylicium
  * @description Module someFunction qui réunit plein de fonction utiles
  * @github https://github.com/Sylicium/someScripts/edit/main/modules/someFunctions.js
@@ -261,6 +261,30 @@ function anyWordInText(text, list, caseSensitive=true) {
         if(text.indexOf(list[i]) != -1) return true
     }
     return false
+}
+
+module.exports.parseMillisecondsFromTimeString = parseMillisecondsFromTimeString
+/**
+ * parseMillisecondsFromTimeString(string) : Returns an amount of milliseconds from the parsed user time string input
+ * @example f("10m") -> 600000 | f("1d") -> 86400000 | f("2d 10m 50s 999ms") -> 173450999
+ * @param {String} str - The text to parse
+ * @returns {Number}
+ */
+function parseMillisecondsFromTimeString(str) {
+    var total = NaN;
+    var weeks   =       str.match(/(\d+)*w([^a-zA-Z]|$)/);
+    var days    =       str.match(/(\d+)*d([^a-zA-Z]|$)/);
+    var hours   =       str.match(/(\d+)*h([^a-zA-Z]|$)/);
+    var minutes =       str.match(/(\d+)*(m|min)([^a-zA-Z]|$)/);
+    var seconds =       str.match(/(\d+)*s([^a-zA-Z]|$)/);
+    var milliseconds =  str.match(/(\d+)*ms([^a-zA-Z]|$)/);
+    if (weeks) {        if(isNaN(total)) {total=0};     total += parseInt(weeks[1])          *604800*1000;}
+    if (days) {         if(isNaN(total)) {total=0};     total += parseInt(days[1])          *86400*1000;}
+    if (hours) {        if(isNaN(total)) {total=0};     total += parseInt(hours[1])         *3600*1000; }
+    if (minutes) {      if(isNaN(total)) {total=0};     total += parseInt(minutes[1])       *60*1000;   }
+    if (seconds) {      if(isNaN(total)) {total=0};     total += parseInt(seconds[1])       *1000;      }
+    if (milliseconds) { if(isNaN(total)) {total=0};     total += parseInt(milliseconds[1]);             }
+    return total;
 }
 
 /**
