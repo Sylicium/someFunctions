@@ -1,6 +1,6 @@
 
 /**
- * @version 3.6.1 // 01/06/2024
+ * @version 3.7.0 // 02/06/2024
  * @author Sylicium
  * @description Module someFunction qui réunit plein de fonction utiles
  * @github https://github.com/Sylicium/someScripts/edit/main/modules/someFunctions.js
@@ -276,6 +276,44 @@ function mapObject(obj, callback) {
     }
     return newObj
 }
+
+
+module.exports = hasSameKeys
+/**
+ * @description Function to check if a specific object has exactly the same keys as another object Pattern, not more, not less
+ * @param {Object} pattern The pattern object
+ * @param {Object} obj The object to compare
+ * @returns {Boolean} True if the object has the same keys as the pattern, false otherwise
+ */
+function hasSameKeys(pattern, obj) {
+    let objKeys = Object.keys(obj)
+    let patternKeys = Object.keys(pattern)
+    if(objKeys.length !== patternKeys.length) return false
+    for(let i = 0; i < objKeys.length; i++) {
+        if(!patternKeys.includes(objKeys[i])) return false
+    }
+    return true
+}
+/**
+ * @description Same function but using a list for all keys
+ * @example hasSameKeysList(["name","age"], {name:"toto",age:12}) -> true
+ * @example hasSameKeysList(["name"], {name:"toto",age:12}) -> false
+ * @example hasSameKeysList(["name","age"], {name:"toto"}) -> false
+ * @param {Array} pattern The pattern list
+ * @param {Object} obj The object to compare
+ * @returns {Boolean} True if the object has the same keys as the pattern, false otherwise
+*/
+module.exports.hasSameKeysList = hasSameKeysList
+function hasSameKeysList(patternList, obj) {
+    let objKeys = Object.keys(obj)
+    if(objKeys.length !== patternList.length) return false
+    for(let i = 0; i < objKeys.length; i++) {
+        if(!patternList.includes(objKeys[i])) return false
+    }
+    return true
+}
+
+
 
 module.exports.parseMillisecondsFromTimeString = parseMillisecondsFromTimeString
 /**
