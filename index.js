@@ -1,6 +1,6 @@
 
 /**
- * @version 3.6.0 // 01/06/2024
+ * @version 3.6.1 // 01/06/2024
  * @author Sylicium
  * @description Module someFunction qui réunit plein de fonction utiles
  * @github https://github.com/Sylicium/someScripts/edit/main/modules/someFunctions.js
@@ -269,7 +269,7 @@ module.exports.mapObject = mapObject
  * @param {Object} obj
  * @param {Function} callback
 */
-const mapObject = (obj, callback) => {
+function mapObject(obj, callback) {
     let newObj = {}
     for (const [key, value] of Object.entries(obj)) {
         newObj[key] = callback(value, key)
