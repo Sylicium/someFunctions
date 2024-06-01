@@ -1,6 +1,6 @@
 
 /**
- * @version 3.7.0 // 02/06/2024
+ * @version 3.7.1 // 02/06/2024
  * @author Sylicium
  * @description Module someFunction qui réunit plein de fonction utiles
  * @github https://github.com/Sylicium/someScripts/edit/main/modules/someFunctions.js
@@ -278,13 +278,13 @@ function mapObject(obj, callback) {
 }
 
 
-module.exports = hasSameKeys
 /**
  * @description Function to check if a specific object has exactly the same keys as another object Pattern, not more, not less
  * @param {Object} pattern The pattern object
  * @param {Object} obj The object to compare
  * @returns {Boolean} True if the object has the same keys as the pattern, false otherwise
  */
+module.exports.hasSameKeys = hasSameKeys
 function hasSameKeys(pattern, obj) {
     let objKeys = Object.keys(obj)
     let patternKeys = Object.keys(pattern)
