@@ -1,6 +1,6 @@
 
 /**
- * @version 3.7.2 // 02/06/2024
+ * @version 4.0.0 // 02/06/2024
  * @author Sylicium
  * @description Module someFunction qui réunit plein de fonction utiles
  * @github https://github.com/Sylicium/someScripts/edit/main/modules/someFunctions.js
@@ -70,7 +70,6 @@ class new_Random {
      > choice(["toto","kiwi","salut"], true, 2) // will never return ["toto","toto"] or ["kiwi","kiwi"] etc..
      Careful, this rule only apply on indexes, so
      > choice(["toto","kiwi","toto"], true, 2) // may return ["toto","toto"] but this mean that indexes 0 and 2 have been choosen.
-     You can remove duplicates of a list using removeDuplicates() function in that same module before passing the list in the choice() function.
      You can remove duplicates of a list using SF.listsTools.removeDuplicates() function in that same module before passing the list in the choice() function.
      */
     choice(list, pickOnce=true, amount=1) {
@@ -112,94 +111,98 @@ const Random = new new_Random()
 module.exports.Random = Random
 
 
-module.exports.sum = sum
-/**
- * sum() : Retourne la somme de tous les éléments de la liste
- * @param {Array} list - La liste en entrée
- */
-function sum(list) {
-    return list.reduce((partialSum, a) => partialSum + a, 0);
-}
-
-module.exports.any = any
-/**
- * any() : Retourne true si au moins 1 élément se trouve dans les 2 listes
- * @param {Array} list - La 1ere liste
- * @param {Array} list_two - La 2ere liste
- * @param {Boolean} caseSensitive - Prendre en compte ou non la casse. Default: true
- */
-function any(list, list_two, caseSensitive=true) {
-    if(!caseSensitive) {
-        list = list.map(f=>{ return f.toLowerCase(); });
-        list_two = list_two.map(f=>{ return f.toLowerCase(); });
+class new_listTools{
+    constructor() {
+        this.version = "1.0.0"
     }
-    for(let i in list) {
-        if(list_two.indexOf(list[i]) != -1) return true
+
+    /**
+     * sum() : Retourne la somme de tous les éléments de la liste
+     * @param {Array} list - La liste en entrée
+     */
+    sum(list) {
+        return list.reduce((partialSum, a) => partialSum + a, 0);
     }
-    return false
-}
 
-module.exports.arrayToChunks = arrayToChunks
-/**
- * arrayToChunks() : Retourne une liste contenant des chunks de la liste donnée, de taille maximum specifié
- * @param {Array} list - La liste qui doit être découpée en chunks
- * @param {Number} chunkSize - La taille maximum d'un chunk
- * @returns Array
- */
-function arrayToChunks(list, chunkSize) {
-    if(list == undefined || !Array.isArray(list)) throw new Error("list must be type of Array.")
-    if(chunkSize == undefined || typeof chunkSize != 'number' || !Number.isInteger(chunkSize) || chunkSize<=0) throw new Error("Chunk size must me a valid positive integer > 0")
-    return list.reduce((all,one,i) => {
-        const ch = Math.floor(i/chunkSize); 
-        all[ch] = [].concat((all[ch]||[]),one); 
-        return all
-    }, [])
-} 
+    /**
+     * any() : Retourne true si au moins 1 élément se trouve dans les 2 listes
+     * @param {Array} list - La 1ere liste
+     * @param {Array} list_two - La 2ere liste
+     * @param {Boolean} caseSensitive - Prendre en compte ou non la casse. Default: true
+     */
+    any(list, list_two, caseSensitive=true) {
+        if(!caseSensitive) {
+            list = list.map(f=>{ return f.toLowerCase(); });
+            list_two = list_two.map(f=>{ return f.toLowerCase(); });
+        }
+        for(let i in list) {
+            if(list_two.indexOf(list[i]) != -1) return true
+        }
+        return false
+    }
 
-module.exports.all = all
-/**
- * all() : Retourne true si tous les éléments de la liste A se trouvent dans la B
- * @param {Array} from_list - La liste qui doit être contenue intégralement dans la 2eme
- * @param {Array} list_in - La liste qui doit contenir chaque élement de la 1ere
- * @param {Boolean} caseSensitive - Prendre en compte ou non la casse. Default: true
- */
-function all(from_list, list_in, caseSensitive=true) {
-    if(!caseSensitive) {
-        list = list.map(f=>{ return f.toLowerCase(); });
-        list_two = list_two.map(f=>{ return f.toLowerCase(); });
+    /**
+     * arrayToChunks() : Retourne une liste contenant des chunks de la liste donnée, de taille maximum specifié
+     * @param {Array} list - La liste qui doit être découpée en chunks
+     * @param {Number} chunkSize - La taille maximum d'un chunk
+     * @returns Array
+     */
+    arrayToChunks(list, chunkSize) {
+        if(list == undefined || !Array.isArray(list)) throw new Error("list must be type of Array.")
+        if(chunkSize == undefined || typeof chunkSize != 'number' || !Number.isInteger(chunkSize) || chunkSize<=0) throw new Error("Chunk size must me a valid positive integer > 0")
+        return list.reduce((all,one,i) => {
+            const ch = Math.floor(i/chunkSize); 
+            all[ch] = [].concat((all[ch]||[]),one); 
+            return all
+        }, [])
     }
     
-    for(let i in from_list) {
-        if(list_in.indexOf(from_list[i]) == -1) return false
+    /**
+    * all() : Retourne true si tous les éléments de la liste A se trouvent dans la B
+    * @param {Array} from_list - La liste qui doit être contenue intégralement dans la 2eme
+    * @param {Array} list_in - La liste qui doit contenir chaque élement de la 1ere
+    * @param {Boolean} caseSensitive - Prendre en compte ou non la casse. Default: true
+    */
+    all(from_list, list_in, caseSensitive=true) {
+        if(!caseSensitive) {
+            list = list.map(f=>{ return f.toLowerCase(); });
+            list_two = list_two.map(f=>{ return f.toLowerCase(); });
+        }
+        
+        for(let i in from_list) {
+            if(list_in.indexOf(from_list[i]) == -1) return false
+        }
+        return true
     }
-    return true
+
+
+    /**
+     * splitAndJoin() : remplace toutes les clé du dictionnaire donné par sa valeur
+     * @param {String} text - Le texte à traiter
+     * @param {Object} dict - Le dictionnaire sous la forme { "replaceFrom": "replaceTo", "replaceFrom2": "replaceTo2" }
+     * @description example: splitAndJoin("hi how are you i ?", {"i":"UWU","are":"dont"}) -> 'hUWU how dont you UWU ?'
+     */
+    splitAndJoin(text, dict) {
+        let new_text = text
+        for(let key in dict) {
+            new_text = new_text.split(key).join(dict[key])
+        }
+        return new_text
+    }
+
+    /**
+     * @description Remove duplicates from a given array
+     * @param {Array} list The list to use
+     * @returns {Array}
+     */
+    removeDuplicates(list) { return list.filter((x, i) => i === list.indexOf(x)) }
+
+
 }
 
 
-module.exports.splitAndJoin = splitAndJoin
-/**
- * splitAndJoin() : remplace toutes les clé du dictionnaire donné par sa valeur
- * @param {String} text - Le texte à traiter
- * @param {Object} dict - Le dictionnaire sous la forme { "replaceFrom": "replaceTo", "replaceFrom2": "replaceTo2" }
- * @description example: splitAndJoin("hi how are you i ?", {"i":"UWU","are":"dont"}) -> 'hUWU how dont you UWU ?'
- */
-function splitAndJoin(text, dict) {
-    let new_text = text
-    for(let key in dict) {
-        new_text = new_text.split(key).join(dict[key])
-    }
-    return new_text
-}
-
-/**
- * @function removeDuplicates
- * @description Remove duplicates from a given array
- * @param {Array} list The list to use
- * @returns {Array}
- */
-function removeDuplicates(list) { return list.filter((x, i) => i === list.indexOf(x)) }
-module.exports.removeDuplicates = removeDuplicates
-
+const listsTools = new new_listTools()
+module.exports.lists = listsTools
 
 
 
@@ -527,7 +530,7 @@ module.exports._normalize = _normalize
  * @returns 
  */
 let _normalizeRegex = (str) => {
-    return `(${splitAndJoin(_normalize(str.toLowerCase().trim()), {
+    return `(${listsTools.splitAndJoin(_normalize(str.toLowerCase().trim()), {
         "\\": "\\\\", "|": "\\|", "/": "\\/",
         "-": "\\-", "_": "\\_", "$": "\\$",
         "[": "\\[", "]": "\\]", "(": "\\(",
