@@ -1,6 +1,6 @@
 
 /**
- * @version 3.5.0 // 16/04/2024
+ * @version 3.6.0 // 01/06/2024
  * @author Sylicium
  * @description Module someFunction qui réunit plein de fonction utiles
  * @github https://github.com/Sylicium/someScripts/edit/main/modules/someFunctions.js
@@ -261,6 +261,20 @@ function anyWordInText(text, list, caseSensitive=true) {
         if(text.indexOf(list[i]) != -1) return true
     }
     return false
+}
+
+module.exports.mapObject = mapObject 
+/**
+ * @description Functions that works like a Array.map((value, index)) but for objects
+ * @param {Object} obj
+ * @param {Function} callback
+*/
+const mapObject = (obj, callback) => {
+    let newObj = {}
+    for (const [key, value] of Object.entries(obj)) {
+        newObj[key] = callback(value, key)
+    }
+    return newObj
 }
 
 module.exports.parseMillisecondsFromTimeString = parseMillisecondsFromTimeString
