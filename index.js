@@ -1,6 +1,6 @@
 
 /**
- * @version 3.7.1 // 02/06/2024
+ * @version 3.7.2 // 02/06/2024
  * @author Sylicium
  * @description Module someFunction qui réunit plein de fonction utiles
  * @github https://github.com/Sylicium/someScripts/edit/main/modules/someFunctions.js
@@ -10,20 +10,6 @@
 /* Import modules */
 const fs = require("fs")
 const node_crypto = require('node:crypto');
-
-try {
-    let config = require("../config")
-
-    module.exports.isSuperAdmin = isSuperAdmin
-    /**
-     * isSuperAdmin() : Booléen qui retourne true si l'ID est celui d'un SuperAdmin
-     * @param {string} user_id - L'id de l'utilisateur a check
-     */
-    function isSuperAdmin(user_id) {
-        return ( config.superAdminList.indexOf(user_id) != -1 )
-    }
-} catch(e) { console.log("[WARN someFunctions.js] Did not loaded isSuperAdmin() due to error. (this is not necessary to use the whole module)") }
-
 
 class new_Random {
     constructor() {
@@ -85,6 +71,7 @@ class new_Random {
      Careful, this rule only apply on indexes, so
      > choice(["toto","kiwi","toto"], true, 2) // may return ["toto","toto"] but this mean that indexes 0 and 2 have been choosen.
      You can remove duplicates of a list using removeDuplicates() function in that same module before passing the list in the choice() function.
+     You can remove duplicates of a list using SF.listsTools.removeDuplicates() function in that same module before passing the list in the choice() function.
      */
     choice(list, pickOnce=true, amount=1) {
         if(!Array.isArray(list) || list.length == 0 || typeof list != 'object') throw new Error("Invalid value for argument 'list'.")
@@ -121,10 +108,9 @@ class new_Random {
         return [...Array(length)].map((x) => charList[Math.floor(Math.random()*charList.length)]).join('');
     }
 }
-module.exports.Random = new new_Random()
+const Random = new new_Random()
+module.exports.Random = Random
 
-
-/* Functions with lists */
 
 module.exports.sum = sum
 /**
@@ -263,6 +249,11 @@ function anyWordInText(text, list, caseSensitive=true) {
     return false
 }
 
+
+// =====================
+// Functions for objects
+// =====================
+
 module.exports.mapObject = mapObject 
 /**
  * @description Functions that works like a Array.map((value, index)) but for objects
@@ -276,7 +267,6 @@ function mapObject(obj, callback) {
     }
     return newObj
 }
-
 
 /**
  * @description Function to check if a specific object has exactly the same keys as another object Pattern, not more, not less
@@ -313,6 +303,45 @@ function hasSameKeysList(patternList, obj) {
     return true
 }
 
+/**
+ * @class JSONBigInt()
+ * @author Sylicium
+ * @description Allow you to use JSON.parse() and JSON.stringify() with support for BigInts
+ */
+class new_JSONBigInt {
+    constructor() {}
+    parse(json) {
+      return this._forceParse(json)
+    }
+    stringify(json) {
+      return this._forceStringify(json)
+    }
+    _replacer(key, value) {
+      if (typeof value === 'bigint') {
+        return {
+          type: 'bigint',
+          value: value.toString()
+        };
+      } else {
+        return value;
+      }
+    }
+    _reviver(key, value) {
+      if (value && value.type == 'bigint') {
+        return BigInt(value.value);  
+      }
+      return value;
+    }
+    _forceStringify(json) {
+      return JSON.stringify(json, this._replacer);
+    }
+    _forceParse(json) {
+      return JSON.parse(json, this._reviver);
+    }
+}
+module.exports.JSONBigInt = new new_JSONBigInt()
+
+
 
 
 module.exports.parseMillisecondsFromTimeString = parseMillisecondsFromTimeString
@@ -338,44 +367,6 @@ function parseMillisecondsFromTimeString(str) {
     if (milliseconds) { if(isNaN(total)) {total=0};     total += parseInt(milliseconds[1]);             }
     return total;
 }
-
-/**
- * @class JSONBigInt()
- * @author Sylicium
- * @description Allow you to use JSON.parse() and JSON.stringify() with support for BigInts
- */
-class new_JSONBigInt {
-      constructor() {}
-      parse(json) {
-        return this._forceParse(json)
-      }
-      stringify(json) {
-        return this._forceStringify(json)
-      }
-      _replacer(key, value) {
-        if (typeof value === 'bigint') {
-          return {
-            type: 'bigint',
-            value: value.toString()
-          };
-        } else {
-          return value;
-        }
-      }
-      _reviver(key, value) {
-        if (value && value.type == 'bigint') {
-          return BigInt(value.value);  
-        }
-        return value;
-      }
-      _forceStringify(json) {
-        return JSON.stringify(json, this._replacer);
-      }
-      _forceParse(json) {
-        return JSON.parse(json, this._reviver);
-      }
-}
-module.exports.JSONBigInt = new new_JSONBigInt()
 
 
 module.exports.isScam = isScam
@@ -527,6 +518,14 @@ module.exports.createHash = createHash
 let _normalize = (str) => { return (`${str}`.normalize('NFKD').replace(/[^\w ]/g, '')).toLowerCase().replace(/\s+/g, ' ').trim() }
 module.exports._normalize = _normalize
 
+/**
+ * @description Takes a normal regex and transform it into a normalized regex which can be used to detect accent and special characters
+ * @example _normalizeRegex("toto") -> '(t[oòóôõöø]t[oòóôõöø])'
+ * @example _normalizeRegex("hi-[how}are?you") -> '(h[iìíîï]h[oòóôõöø]w[aàáâãäå]r[eèéêë][yýÿ][oòóôõöø][uùúûü])'
+ * @example _normalizeRegex("n word") -> '([nñ] w[oòóôõöø]rd)'
+ * @param {*} str 
+ * @returns 
+ */
 let _normalizeRegex = (str) => {
     return `(${splitAndJoin(_normalize(str.toLowerCase().trim()), {
         "\\": "\\\\", "|": "\\|", "/": "\\/",
@@ -564,6 +563,11 @@ let _normalizeRegex = (str) => {
     })})`
 }
 
+/**
+ * @description Normalize a list of strings and return a regex string
+ * @param {*} list 
+ * @returns 
+ */
 let _normalizeListRegex = (list) => { return list.map(x => { return _normalizeRegex(x) }).join("|") }
 
 /**
@@ -753,9 +757,9 @@ class Emitter {
 module.exports.Emitter = Emitter
 
 /**
- * sleep(): Waits asynchronously the specified amount of milliseconds
- * @param {*} ms Amount of milliseconds to wait
- * @returns 
+ * @description Pauses the execution for a specified amount of time in milliseconds
+ * @param {Number} ms - Amount of milliseconds to wait
+ * @returns {Promise} - A promise that resolves after the specified time
  */
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 module.exports.sleep = sleep
