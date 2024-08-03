@@ -1,6 +1,6 @@
 {
   "name": "somefunctions",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "type": "module",
   "description": "A bunch of utilities that you can freely use in your projects",
   "main": "./dist/index.js",
